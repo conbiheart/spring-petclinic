@@ -1,5 +1,9 @@
 pipeline {
     agent any
+     tools{
+        jdk 'java'
+        maven 'maven'
+    }
    // agent { label 'master' }
     stages {
         stage ('Checkout') {
