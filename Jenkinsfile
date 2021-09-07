@@ -1,9 +1,9 @@
 pipeline {
-    agent { label 'linux' }
+    agent { label 'master' }
     stages {
         stage ('Checkout') {
           steps {
-            git 'https://github.com/effectivejenkins/spring-petclinic.git'
+            git 'https://github.com/mhali922/spring-petclinic.git'
           }
         }
         stage('Build') {
@@ -14,6 +14,7 @@ pipeline {
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
+        /**
         stage('Deploy') {
           steps {
             input 'Do you approve the deployment?'
@@ -21,5 +22,6 @@ pipeline {
             sh "ssh jenkins@192.168.50.10 'nohup java -jar /opt/pet/spring-petclinic-1.5.1.jar &'"
           }
         }
+        **/
     }
 }
