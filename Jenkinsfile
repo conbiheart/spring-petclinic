@@ -16,9 +16,29 @@ pipeline {
             steps {
                 sh 'mvn clean package'
                 junit '**/target/surefire-reports/TEST-*.xml'
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+               // archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
+        stage('publish to Nexus') {
+                steps{
+                     nexusArtifactUploader artifacts: [
+                        [
+                            artifactId: 'spring-petclinic', 
+                            classifier: '', 
+                            file: 'target/petclinic-1.5.1.war', 
+                            type: 'war'
+                        ]
+                    ], 
+                    credentialsId: 'nexus3', 
+                    groupId: 'org.springframework.samples', 
+                    nexusUrl: '172.31.23.232:8081', 
+                    nexusVersion: 'nexus3', 
+                    protocol: 'http', 
+                    repository: 'spring-petclinic', 
+                    version: '1.5.1'
+                    }
+            }
+        
         /**
         stage('Deploy') {
           steps {
