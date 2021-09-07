@@ -16,9 +16,10 @@ pipeline {
             steps {
                 sh 'mvn clean package'
                 junit '**/target/surefire-reports/TEST-*.xml'
-               // archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
             }
         }
+        /**
         stage('publish to Nexus') {
                 steps{
                      nexusArtifactUploader artifacts: [
@@ -39,7 +40,7 @@ pipeline {
                     }
             }
         
-        /**
+       
         stage('Deploy') {
           steps {
             input 'Do you approve the deployment?'
